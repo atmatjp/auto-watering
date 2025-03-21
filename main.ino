@@ -1,19 +1,25 @@
-int thresholdLow = 450;  // ポンプONの閾値
-int thresholdHigh = 490; // ポンプOFFの閾値
-bool pumpState = false;  // ポンプの状態（初期値OFF）
+int IN1 = 2;
+int Pin1 = A0;
+float value1 = 0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(IN1, OUTPUT);
+  pinMode(Pin1, INPUT);
+  digitalWrite(IN1, LOW);
+  delay(500);
+}
 
 void loop() {
-  value1 = analogRead(Pin1);
   Serial.print("MOISTURE LEVEL:");
+  value1 = analogRead(Pin1);
   Serial.println(value1);
-
-  if (!pumpState && value1 < thresholdLow) {
-    digitalWrite(IN1, HIGH); // ポンプON
-    pumpState = true;
-  } else if (pumpState && value1 > thresholdHigh) {
-    digitalWrite(IN1, LOW); // ポンプOFF
-    pumpState = false;
+  if (value1 > 470) {
+    digitalWrite(IN1, LOW);
+  } else {
+    digitalWrite(IN1, HIGH);
   }
-
+  Serial.println();
   delay(1000);
 }
+このコードを添削して
